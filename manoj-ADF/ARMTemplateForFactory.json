@@ -308,7 +308,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"items": {
-								"value": "@activity('LookupDept').output",
+								"value": "@activity('LookupDept').output.value",
 								"type": "Expression"
 							},
 							"activities": [
