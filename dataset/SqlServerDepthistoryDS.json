@@ -1,0 +1,12 @@
+{
+	"name": "SqlServerDepthistoryDS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SqlServerTableEmpLS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	}
+}
