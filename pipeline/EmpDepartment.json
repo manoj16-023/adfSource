@@ -62,7 +62,7 @@
 								"source": {
 									"type": "SqlServerSource",
 									"sqlReaderQuery": {
-										"value": "select [BusinessEntityId] , [DepartmentID]  from [HumanResources].[EmployeeDepartmentHistory] where [DepartmentID]=@{item().DepartmentID}",
+										"value": "\nselect a.BusinessEntityID,a.JobTitle,a.Birthdate,a.hiredate,a.maritalstatus,b.departmentid from HumanResources.Employee as a inner join HumanResources.EmployeeDepartmenthistory as b on a.BusinessentityID= b.BusinessEntityId where DepartmentId=@{item().DepartmentId}",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
