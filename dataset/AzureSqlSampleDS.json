@@ -1,0 +1,13 @@
+{
+	"name": "AzureSqlSampleDS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlSampleLS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

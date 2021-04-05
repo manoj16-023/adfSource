@@ -1,0 +1,9 @@
+{
+	"name": "manoj-ADF",
+	"location": "westus2",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "d44fa52e-7b2b-45d7-920b-c43e270ed8da",
+		"tenantId": "c8dee40f-fd9f-49c9-b741-722dc5c4ae7c"
+	}
+}
