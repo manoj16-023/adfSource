@@ -1,0 +1,27 @@
+{
+	"name": "DelimitedTextDS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorageAccLS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@{item().name}",
+					"type": "Expression"
+				},
+				"container": "adf-output-sales"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
