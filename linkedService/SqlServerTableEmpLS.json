@@ -1,0 +1,17 @@
+{
+	"name": "SqlServerTableEmpLS",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=True;data source=DESKTOP-555G6B5\\MANOJ;initial catalog=AdventureWorks2012",
+			"userName": "Manoj kumar",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI3YmU5MjcwNi1iNTNjLTQyZWQtODIwNi0yNjI3ZWMyNGVjYTkiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "DemoOnpremiseIR",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
