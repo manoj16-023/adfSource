@@ -1,0 +1,51 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "manoj-adf"
+		},
+		"AzureBlobStorageAccLS_connectionString": {
+			"value": ""
+		},
+		"AzureBlobStorageLS_connectionString": {
+			"value": ""
+		},
+		"AzureSqlDatabaseSample6LS_connectionString": {
+			"value": ""
+		},
+		"AzureSqlDatabaseSampleLS_connectionString": {
+			"value": ""
+		},
+		"AzureSqlDatabaseTrial6LS_connectionString": {
+			"value": ""
+		},
+		"AzureSqlSampleLS_connectionString": {
+			"value": ""
+		},
+		"SqlServerLS_connectionString": {
+			"value": ""
+		},
+		"SqlServerLS_password": {
+			"value": ""
+		},
+		"SqlServerTableEmpLS_connectionString": {
+			"value": ""
+		},
+		"SqlServerTableEmpLS_password": {
+			"value": ""
+		},
+		"SqlServerLS_properties_typeProperties_userName": {
+			"value": "DESKTOP-555G6B5\\Manoj kumar"
+		},
+		"SqlServerTableEmpLS_properties_typeProperties_userName": {
+			"value": "Manoj kumar"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
