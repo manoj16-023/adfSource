@@ -35,11 +35,20 @@
 		"SqlServerTableEmpLS_password": {
 			"value": ""
 		},
+		"SqlServerOnPremiseTableLS_connectionString": {
+			"value": ""
+		},
+		"AzureSqlDatabase7LS_connectionString": {
+			"value": ""
+		},
 		"SqlServerLS_properties_typeProperties_userName": {
 			"value": "DESKTOP-555G6B5\\Manoj kumar"
 		},
 		"SqlServerTableEmpLS_properties_typeProperties_userName": {
 			"value": "Manoj kumar"
+		},
+		"SqlServerOnPremiseTableLS_properties_typeProperties_userName": {
+			"value": "@{linkedService().WindowsUsername}"
 		},
 		"containerUri": {
 			"value": ""

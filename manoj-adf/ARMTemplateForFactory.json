@@ -47,6 +47,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SqlServerTableEmpLS'"
 		},
+		"SqlServerOnPremiseTableLS_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SqlServerOnPremiseTableLS'"
+		},
+		"AzureSqlDatabase7LS_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase7LS'"
+		},
 		"SqlServerLS_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "DESKTOP-555G6B5\\Manoj kumar"
@@ -54,6 +62,10 @@
 		"SqlServerTableEmpLS_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "Manoj kumar"
+		},
+		"SqlServerOnPremiseTableLS_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "@{linkedService().WindowsUsername}"
 		}
 	},
 	"variables": {
@@ -1044,15 +1056,9 @@
 						"type": "SecureString",
 						"value": "[parameters('SqlServerLS_password')]"
 					}
-				},
-				"connectVia": {
-					"referenceName": "DemoOnpremiseIR",
-					"type": "IntegrationRuntimeReference"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/DemoOnpremiseIR')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SqlServerTableEmpLS')]",
@@ -1068,23 +1074,7 @@
 						"type": "SecureString",
 						"value": "[parameters('SqlServerTableEmpLS_password')]"
 					}
-				},
-				"connectVia": {
-					"referenceName": "DemoOnpremiseIR",
-					"type": "IntegrationRuntimeReference"
 				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/DemoOnpremiseIR')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DemoOnpremiseIR')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "SelfHosted",
-				"typeProperties": {}
 			},
 			"dependsOn": []
 		},
@@ -1200,6 +1190,192 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/AzureSqlSalesProductDS')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlProductDemoDS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/OnPremise-SelfHosted')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "SelfHosted",
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerOnPremiseTableLS')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"parameters": {
+					"ServerName": {
+						"type": "String",
+						"defaultValue": "DESKTOP-555G6B5\\MANOJ"
+					},
+					"DataBaseName": {
+						"type": "String",
+						"defaultValue": "TrainingDB"
+					},
+					"WindowsUsername": {
+						"type": "String",
+						"defaultValue": "DESKTOP-555G6B5\\Manoj kumar"
+					},
+					"WPassword": {
+						"type": "String",
+						"defaultValue": "qwert67890"
+					}
+				},
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('SqlServerOnPremiseTableLS_connectionString')]",
+					"userName": "[parameters('SqlServerOnPremiseTableLS_properties_typeProperties_userName')]",
+					"password": "@{linkedService().WPassword}"
+				},
+				"connectVia": {
+					"referenceName": "OnPremise-SelfHosted",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/OnPremise-SelfHosted')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase7LS')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureSqlDatabase7LS_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/OnpremisetoAzureSqlPipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copying MyCust",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"tableOption": "autoCreate"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SqlServerOnpremiseMyCustDS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AzureSqlTabledemo7DS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SqlServerOnpremiseMyCustDS')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTabledemo7DS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerOnpremiseMyCustDS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServerOnPremiseTableLS",
+					"type": "LinkedServiceReference",
+					"parameters": {
+						"ServerName": "DESKTOP-555G6B5\\MANOJ",
+						"DataBaseName": "TrainingDB",
+						"WindowsUsername": "DESKTOP-555G6B5\\Manoj kumar",
+						"WPassword": "qwert67890"
+					}
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "CustomerID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Name",
+						"type": "varchar"
+					},
+					{
+						"name": "BalanceDue",
+						"type": "decimal",
+						"precision": 28,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "mycust"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServerOnPremiseTableLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTabledemo7DS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase7LS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"table": "mycust"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase7LS')]"
 			]
 		}
 	]
