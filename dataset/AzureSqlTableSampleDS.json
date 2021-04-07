@@ -2,14 +2,18 @@
 	"name": "AzureSqlTableSampleDS",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureSqlDatabaseSampleLS",
+			"referenceName": "AzureSqlDatabase7LS",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": [],
 		"typeProperties": {
-			"table": "@{item().name}"
+			"schema": "dbo",
+			"table": {
+				"value": "@{item().name}",
+				"type": "Expression"
+			}
 		}
 	}
 }
