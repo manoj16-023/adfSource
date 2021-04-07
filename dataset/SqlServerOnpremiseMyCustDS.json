@@ -1,0 +1,38 @@
+{
+	"name": "SqlServerOnpremiseMyCustDS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SqlServerOnPremiseTableLS",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"ServerName": "DESKTOP-555G6B5\\MANOJ",
+				"DataBaseName": "TrainingDB",
+				"WindowsUsername": "DESKTOP-555G6B5\\Manoj kumar",
+				"WPassword": "qwert67890"
+			}
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "CustomerID",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "Name",
+				"type": "varchar"
+			},
+			{
+				"name": "BalanceDue",
+				"type": "decimal",
+				"precision": 28,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "mycust"
+		}
+	}
+}

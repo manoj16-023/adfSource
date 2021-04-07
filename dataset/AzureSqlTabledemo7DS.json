@@ -1,0 +1,15 @@
+{
+	"name": "AzureSqlTabledemo7DS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase7LS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"table": "mycust"
+		}
+	}
+}
