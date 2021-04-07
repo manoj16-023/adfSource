@@ -1,0 +1,22 @@
+{
+	"name": "DelimitedTextMycustDsgen1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStoreGen1LS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureDataLakeStoreLocation",
+				"folderPath": "myfiles"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
