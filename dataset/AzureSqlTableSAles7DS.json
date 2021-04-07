@@ -1,5 +1,5 @@
 {
-	"name": "AzureSqlTabledemo7DS",
+	"name": "AzureSqlTableSAles7DS",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureSqlDatabase7LS",
@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "SalesTable"
+			"table": "Sales"
 		}
 	}
 }
