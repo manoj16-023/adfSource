@@ -2,8 +2,14 @@
 	"name": "SqlServerDeptTablesDS",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "SqlServerTableEmpLS",
-			"type": "LinkedServiceReference"
+			"referenceName": "SqlServerOnPremiseTableLS",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"ServerName": "DESKTOP-555G6B5\\MANOJ",
+				"DataBaseName": "AdventureWorks2012",
+				"WindowsUsername": "DESKTOP-555G6B5\\Manoj kumar",
+				"WPassword": "qwert67890"
+			}
 		},
 		"annotations": [],
 		"type": "SqlServerTable",
