@@ -15,6 +15,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorageLS'"
 		},
+		"AzureDataLakeStoreGen1LS_servicePrincipalKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'servicePrincipalKey' of 'AzureDataLakeStoreGen1LS'"
+		},
+		"AzureSqlDatabase7LS_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase7LS'"
+		},
 		"AzureSqlDatabaseSample6LS_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabaseSample6LS'"
@@ -39,6 +47,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SqlServerLS'"
 		},
+		"SqlServerOnPremiseTableLS_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SqlServerOnPremiseTableLS'"
+		},
 		"SqlServerTableEmpLS_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SqlServerTableEmpLS'"
@@ -47,29 +59,9 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SqlServerTableEmpLS'"
 		},
-		"SqlServerOnPremiseTableLS_connectionString": {
+		"AzureDataLakeStorageGen2Ls_accountKey": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SqlServerOnPremiseTableLS'"
-		},
-		"AzureSqlDatabase7LS_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase7LS'"
-		},
-		"AzureDataLakeStoreGen1LS_servicePrincipalKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'servicePrincipalKey' of 'AzureDataLakeStoreGen1LS'"
-		},
-		"SqlServerLS_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "DESKTOP-555G6B5\\Manoj kumar"
-		},
-		"SqlServerTableEmpLS_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "Manoj kumar"
-		},
-		"SqlServerOnPremiseTableLS_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "@{linkedService().WindowsUsername}"
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorageGen2Ls'"
 		},
 		"AzureDataLakeStoreGen1LS_properties_typeProperties_dataLakeStoreUri": {
 			"type": "string",
@@ -90,6 +82,22 @@
 		"AzureDataLakeStoreGen1LS_properties_typeProperties_resourceGroupName": {
 			"type": "string",
 			"defaultValue": "manoj-rg"
+		},
+		"SqlServerLS_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "DESKTOP-555G6B5\\Manoj kumar"
+		},
+		"SqlServerOnPremiseTableLS_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "@{linkedService().WindowsUsername}"
+		},
+		"SqlServerTableEmpLS_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Manoj kumar"
+		},
+		"AzureDataLakeStorageGen2Ls_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://manojadlsgen2.dfs.core.windows.net"
 		},
 		"containerUri": {
 			"type": "string",
@@ -124,6 +132,12 @@
 					"AzureBlobStorageLS_connectionString": {
 						"value": "[parameters('AzureBlobStorageLS_connectionString')]"
 					},
+					"AzureDataLakeStoreGen1LS_servicePrincipalKey": {
+						"value": "[parameters('AzureDataLakeStoreGen1LS_servicePrincipalKey')]"
+					},
+					"AzureSqlDatabase7LS_connectionString": {
+						"value": "[parameters('AzureSqlDatabase7LS_connectionString')]"
+					},
 					"AzureSqlDatabaseSample6LS_connectionString": {
 						"value": "[parameters('AzureSqlDatabaseSample6LS_connectionString')]"
 					},
@@ -148,17 +162,8 @@
 					"SqlServerTableEmpLS_password": {
 						"value": "[parameters('SqlServerTableEmpLS_password')]"
 					},
-					"AzureSqlDatabase7LS_connectionString": {
-						"value": "[parameters('AzureSqlDatabase7LS_connectionString')]"
-					},
-					"AzureDataLakeStoreGen1LS_servicePrincipalKey": {
-						"value": "[parameters('AzureDataLakeStoreGen1LS_servicePrincipalKey')]"
-					},
-					"SqlServerLS_properties_typeProperties_userName": {
-						"value": "[parameters('SqlServerLS_properties_typeProperties_userName')]"
-					},
-					"SqlServerTableEmpLS_properties_typeProperties_userName": {
-						"value": "[parameters('SqlServerTableEmpLS_properties_typeProperties_userName')]"
+					"AzureDataLakeStorageGen2Ls_accountKey": {
+						"value": "[parameters('AzureDataLakeStorageGen2Ls_accountKey')]"
 					},
 					"AzureDataLakeStoreGen1LS_properties_typeProperties_dataLakeStoreUri": {
 						"value": "[parameters('AzureDataLakeStoreGen1LS_properties_typeProperties_dataLakeStoreUri')]"
@@ -174,6 +179,15 @@
 					},
 					"AzureDataLakeStoreGen1LS_properties_typeProperties_resourceGroupName": {
 						"value": "[parameters('AzureDataLakeStoreGen1LS_properties_typeProperties_resourceGroupName')]"
+					},
+					"SqlServerLS_properties_typeProperties_userName": {
+						"value": "[parameters('SqlServerLS_properties_typeProperties_userName')]"
+					},
+					"SqlServerTableEmpLS_properties_typeProperties_userName": {
+						"value": "[parameters('SqlServerTableEmpLS_properties_typeProperties_userName')]"
+					},
+					"AzureDataLakeStorageGen2Ls_properties_typeProperties_url": {
+						"value": "[parameters('AzureDataLakeStorageGen2Ls_properties_typeProperties_url')]"
 					}
 				}
 			},

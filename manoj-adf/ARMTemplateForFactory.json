@@ -15,6 +15,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorageLS'"
 		},
+		"AzureDataLakeStoreGen1LS_servicePrincipalKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'servicePrincipalKey' of 'AzureDataLakeStoreGen1LS'"
+		},
+		"AzureSqlDatabase7LS_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase7LS'"
+		},
 		"AzureSqlDatabaseSample6LS_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabaseSample6LS'"
@@ -39,6 +47,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SqlServerLS'"
 		},
+		"SqlServerOnPremiseTableLS_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SqlServerOnPremiseTableLS'"
+		},
 		"SqlServerTableEmpLS_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SqlServerTableEmpLS'"
@@ -47,29 +59,9 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SqlServerTableEmpLS'"
 		},
-		"SqlServerOnPremiseTableLS_connectionString": {
+		"AzureDataLakeStorageGen2Ls_accountKey": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SqlServerOnPremiseTableLS'"
-		},
-		"AzureSqlDatabase7LS_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase7LS'"
-		},
-		"AzureDataLakeStoreGen1LS_servicePrincipalKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'servicePrincipalKey' of 'AzureDataLakeStoreGen1LS'"
-		},
-		"SqlServerLS_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "DESKTOP-555G6B5\\Manoj kumar"
-		},
-		"SqlServerTableEmpLS_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "Manoj kumar"
-		},
-		"SqlServerOnPremiseTableLS_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "@{linkedService().WindowsUsername}"
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorageGen2Ls'"
 		},
 		"AzureDataLakeStoreGen1LS_properties_typeProperties_dataLakeStoreUri": {
 			"type": "string",
@@ -90,6 +82,22 @@
 		"AzureDataLakeStoreGen1LS_properties_typeProperties_resourceGroupName": {
 			"type": "string",
 			"defaultValue": "manoj-rg"
+		},
+		"SqlServerLS_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "DESKTOP-555G6B5\\Manoj kumar"
+		},
+		"SqlServerOnPremiseTableLS_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "@{linkedService().WindowsUsername}"
+		},
+		"SqlServerTableEmpLS_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Manoj kumar"
+		},
+		"AzureDataLakeStorageGen2Ls_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://manojadlsgen2.dfs.core.windows.net"
 		}
 	},
 	"variables": {
@@ -379,8 +387,15 @@
 											"partitionOption": "None"
 										},
 										"sink": {
-											"type": "AzureSqlSink",
-											"tableOption": "autoCreate"
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".txt"
+											}
 										},
 										"enableStaging": false,
 										"translator": {
@@ -401,7 +416,7 @@
 									],
 									"outputs": [
 										{
-											"referenceName": "AzureSqlTableSampleDS",
+											"referenceName": "DelimitedTextGen2DS",
 											"type": "DatasetReference",
 											"parameters": {}
 										}
@@ -416,7 +431,136 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SqlServerDeptTablesDS')]",
 				"[concat(variables('factoryId'), '/datasets/SqlServerDepthistoryDS')]",
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTableSampleDS')]"
+				"[concat(variables('factoryId'), '/datasets/DelimitedTextGen2DS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/OnpremisetoAdlsGen1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureDataLakeStoreWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SqlServerOnpremiseMyCustDS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DelimitedTextMycustDsgen1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SqlServerOnpremiseMyCustDS')]",
+				"[concat(variables('factoryId'), '/datasets/DelimitedTextMycustDsgen1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/OnpremisetoAzureSqlPipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copying MyCust",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"tableOption": "autoCreate"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SqlServerOnpremiseMyCustDS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AzureSqlTabledemo7DS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SqlServerOnpremiseMyCustDS')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTabledemo7DS')]"
 			]
 		},
 		{
@@ -849,13 +993,14 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabaseSampleLS",
+					"referenceName": "AzureSqlDatabase7LS",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [],
 				"typeProperties": {
+					"schema": "dbo",
 					"table": {
 						"value": "@{item().name}",
 						"type": "Expression"
@@ -863,7 +1008,27 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseSampleLS')]"
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase7LS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTabledemo7DS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase7LS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"table": "mycust"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase7LS')]"
 			]
 		},
 		{
@@ -895,6 +1060,33 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorageAccLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedTextMycustDsgen1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStoreGen1LS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureDataLakeStoreLocation",
+						"folderPath": "myfiles"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStoreGen1LS')]"
 			]
 		},
 		{
@@ -934,8 +1126,14 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "SqlServerTableEmpLS",
-					"type": "LinkedServiceReference"
+					"referenceName": "SqlServerOnPremiseTableLS",
+					"type": "LinkedServiceReference",
+					"parameters": {
+						"ServerName": "DESKTOP-555G6B5\\MANOJ",
+						"DataBaseName": "AdventureWorks2012",
+						"WindowsUsername": "DESKTOP-555G6B5\\Manoj kumar",
+						"WPassword": "qwert67890"
+					}
 				},
 				"annotations": [],
 				"type": "SqlServerTable",
@@ -943,7 +1141,7 @@
 				"typeProperties": {}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SqlServerTableEmpLS')]"
+				"[concat(variables('factoryId'), '/linkedServices/SqlServerOnPremiseTableLS')]"
 			]
 		},
 		{
@@ -952,8 +1150,14 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "SqlServerTableEmpLS",
-					"type": "LinkedServiceReference"
+					"referenceName": "SqlServerOnPremiseTableLS",
+					"type": "LinkedServiceReference",
+					"parameters": {
+						"ServerName": "DESKTOP-555G6B5\\MANOJ",
+						"DataBaseName": "AdventureWorks2012",
+						"WindowsUsername": "DESKTOP-555G6B5\\Manoj kumar",
+						"WPassword": "qwert67890"
+					}
 				},
 				"annotations": [],
 				"type": "SqlServerTable",
@@ -961,7 +1165,50 @@
 				"typeProperties": {}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SqlServerTableEmpLS')]"
+				"[concat(variables('factoryId'), '/linkedServices/SqlServerOnPremiseTableLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerOnpremiseMyCustDS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServerOnPremiseTableLS",
+					"type": "LinkedServiceReference",
+					"parameters": {
+						"ServerName": "DESKTOP-555G6B5\\MANOJ",
+						"DataBaseName": "TrainingDB",
+						"WindowsUsername": "DESKTOP-555G6B5\\Manoj kumar",
+						"WPassword": "qwert67890"
+					}
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "CustomerID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Name",
+						"type": "varchar"
+					},
+					{
+						"name": "BalanceDue",
+						"type": "decimal",
+						"precision": 28,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "mycust"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServerOnPremiseTableLS')]"
 			]
 		},
 		{
@@ -1010,6 +1257,40 @@
 				"type": "AzureBlobStorage",
 				"typeProperties": {
 					"connectionString": "[parameters('AzureBlobStorageLS_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStoreGen1LS')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDataLakeStore",
+				"typeProperties": {
+					"dataLakeStoreUri": "[parameters('AzureDataLakeStoreGen1LS_properties_typeProperties_dataLakeStoreUri')]",
+					"servicePrincipalId": "[parameters('AzureDataLakeStoreGen1LS_properties_typeProperties_servicePrincipalId')]",
+					"servicePrincipalKey": {
+						"type": "SecureString",
+						"value": "[parameters('AzureDataLakeStoreGen1LS_servicePrincipalKey')]"
+					},
+					"tenant": "[parameters('AzureDataLakeStoreGen1LS_properties_typeProperties_tenant')]",
+					"subscriptionId": "[parameters('AzureDataLakeStoreGen1LS_properties_typeProperties_subscriptionId')]",
+					"resourceGroupName": "[parameters('AzureDataLakeStoreGen1LS_properties_typeProperties_resourceGroupName')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase7LS')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureSqlDatabase7LS_connectionString')]"
 				}
 			},
 			"dependsOn": []
@@ -1085,6 +1366,45 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerOnPremiseTableLS')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"parameters": {
+					"ServerName": {
+						"type": "String",
+						"defaultValue": "DESKTOP-555G6B5\\MANOJ"
+					},
+					"DataBaseName": {
+						"type": "String",
+						"defaultValue": "TrainingDB"
+					},
+					"WindowsUsername": {
+						"type": "String",
+						"defaultValue": "DESKTOP-555G6B5\\Manoj kumar"
+					},
+					"WPassword": {
+						"type": "String",
+						"defaultValue": "qwert67890"
+					}
+				},
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('SqlServerOnPremiseTableLS_connectionString')]",
+					"userName": "[parameters('SqlServerOnPremiseTableLS_properties_typeProperties_userName')]",
+					"password": "@{linkedService().WPassword}"
+				},
+				"connectVia": {
+					"referenceName": "OnPremise-SelfHosted",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/OnPremise-SelfHosted')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SqlServerTableEmpLS')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -1099,6 +1419,16 @@
 						"value": "[parameters('SqlServerTableEmpLS_password')]"
 					}
 				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/OnPremise-SelfHosted')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "SelfHosted",
+				"typeProperties": {}
 			},
 			"dependsOn": []
 		},
@@ -1217,305 +1547,46 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/OnPremise-SelfHosted')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "SelfHosted",
-				"typeProperties": {}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SqlServerOnPremiseTableLS')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"parameters": {
-					"ServerName": {
-						"type": "String",
-						"defaultValue": "DESKTOP-555G6B5\\MANOJ"
-					},
-					"DataBaseName": {
-						"type": "String",
-						"defaultValue": "TrainingDB"
-					},
-					"WindowsUsername": {
-						"type": "String",
-						"defaultValue": "DESKTOP-555G6B5\\Manoj kumar"
-					},
-					"WPassword": {
-						"type": "String",
-						"defaultValue": "qwert67890"
-					}
-				},
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"connectionString": "[parameters('SqlServerOnPremiseTableLS_connectionString')]",
-					"userName": "[parameters('SqlServerOnPremiseTableLS_properties_typeProperties_userName')]",
-					"password": "@{linkedService().WPassword}"
-				},
-				"connectVia": {
-					"referenceName": "OnPremise-SelfHosted",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/OnPremise-SelfHosted')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase7LS')]",
+			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorageGen2Ls')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
-				"type": "AzureSqlDatabase",
+				"type": "AzureBlobFS",
 				"typeProperties": {
-					"connectionString": "[parameters('AzureSqlDatabase7LS_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/OnpremisetoAzureSqlPipeline')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copying MyCust",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"tableOption": "autoCreate"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SqlServerOnpremiseMyCustDS",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "AzureSqlTabledemo7DS",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SqlServerOnpremiseMyCustDS')]",
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTabledemo7DS')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SqlServerOnpremiseMyCustDS')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServerOnPremiseTableLS",
-					"type": "LinkedServiceReference",
-					"parameters": {
-						"ServerName": "DESKTOP-555G6B5\\MANOJ",
-						"DataBaseName": "TrainingDB",
-						"WindowsUsername": "DESKTOP-555G6B5\\Manoj kumar",
-						"WPassword": "qwert67890"
-					}
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "CustomerID",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "Name",
-						"type": "varchar"
-					},
-					{
-						"name": "BalanceDue",
-						"type": "decimal",
-						"precision": 28,
-						"scale": 0
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "mycust"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SqlServerOnPremiseTableLS')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlTabledemo7DS')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase7LS",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"table": "mycust"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase7LS')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/OnpremisetoAdlsGen1')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureDataLakeStoreWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SqlServerOnpremiseMyCustDS",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DelimitedTextMycustDsgen1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SqlServerOnpremiseMyCustDS')]",
-				"[concat(variables('factoryId'), '/datasets/DelimitedTextMycustDsgen1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStoreGen1LS')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureDataLakeStore",
-				"typeProperties": {
-					"dataLakeStoreUri": "[parameters('AzureDataLakeStoreGen1LS_properties_typeProperties_dataLakeStoreUri')]",
-					"servicePrincipalId": "[parameters('AzureDataLakeStoreGen1LS_properties_typeProperties_servicePrincipalId')]",
-					"servicePrincipalKey": {
+					"url": "[parameters('AzureDataLakeStorageGen2Ls_properties_typeProperties_url')]",
+					"accountKey": {
 						"type": "SecureString",
-						"value": "[parameters('AzureDataLakeStoreGen1LS_servicePrincipalKey')]"
-					},
-					"tenant": "[parameters('AzureDataLakeStoreGen1LS_properties_typeProperties_tenant')]",
-					"subscriptionId": "[parameters('AzureDataLakeStoreGen1LS_properties_typeProperties_subscriptionId')]",
-					"resourceGroupName": "[parameters('AzureDataLakeStoreGen1LS_properties_typeProperties_resourceGroupName')]"
+						"value": "[parameters('AzureDataLakeStorageGen2Ls_accountKey')]"
+					}
 				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DelimitedTextMycustDsgen1')]",
+			"name": "[concat(parameters('factoryName'), '/DelimitedTextGen2DS')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStoreGen1LS",
+					"referenceName": "AzureDataLakeStorageGen2Ls",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
 					"location": {
-						"type": "AzureDataLakeStoreLocation",
-						"folderPath": "myfiles"
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "adfoutput"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
-					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
 				"schema": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStoreGen1LS')]"
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageGen2Ls')]"
 			]
 		}
 	]

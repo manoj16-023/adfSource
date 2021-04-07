@@ -11,6 +11,12 @@
 		"AzureBlobStorageLS_connectionString": {
 			"value": ""
 		},
+		"AzureDataLakeStoreGen1LS_servicePrincipalKey": {
+			"value": ""
+		},
+		"AzureSqlDatabase7LS_connectionString": {
+			"value": ""
+		},
 		"AzureSqlDatabaseSample6LS_connectionString": {
 			"value": ""
 		},
@@ -29,29 +35,17 @@
 		"SqlServerLS_password": {
 			"value": ""
 		},
+		"SqlServerOnPremiseTableLS_connectionString": {
+			"value": ""
+		},
 		"SqlServerTableEmpLS_connectionString": {
 			"value": ""
 		},
 		"SqlServerTableEmpLS_password": {
 			"value": ""
 		},
-		"SqlServerOnPremiseTableLS_connectionString": {
+		"AzureDataLakeStorageGen2Ls_accountKey": {
 			"value": ""
-		},
-		"AzureSqlDatabase7LS_connectionString": {
-			"value": ""
-		},
-		"AzureDataLakeStoreGen1LS_servicePrincipalKey": {
-			"value": ""
-		},
-		"SqlServerLS_properties_typeProperties_userName": {
-			"value": "DESKTOP-555G6B5\\Manoj kumar"
-		},
-		"SqlServerTableEmpLS_properties_typeProperties_userName": {
-			"value": "Manoj kumar"
-		},
-		"SqlServerOnPremiseTableLS_properties_typeProperties_userName": {
-			"value": "@{linkedService().WindowsUsername}"
 		},
 		"AzureDataLakeStoreGen1LS_properties_typeProperties_dataLakeStoreUri": {
 			"value": "https://manojadlsgen1.azuredatalakestore.net/webhdfs/v1"
@@ -67,6 +61,18 @@
 		},
 		"AzureDataLakeStoreGen1LS_properties_typeProperties_resourceGroupName": {
 			"value": "manoj-rg"
+		},
+		"SqlServerLS_properties_typeProperties_userName": {
+			"value": "DESKTOP-555G6B5\\Manoj kumar"
+		},
+		"SqlServerOnPremiseTableLS_properties_typeProperties_userName": {
+			"value": "@{linkedService().WindowsUsername}"
+		},
+		"SqlServerTableEmpLS_properties_typeProperties_userName": {
+			"value": "Manoj kumar"
+		},
+		"AzureDataLakeStorageGen2Ls_properties_typeProperties_url": {
+			"value": "https://manojadlsgen2.dfs.core.windows.net"
 		},
 		"containerUri": {
 			"value": ""
