@@ -1,0 +1,35 @@
+{
+	"name": "SqlServerOnPremiseTableLS",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"parameters": {
+			"ServerName": {
+				"type": "String",
+				"defaultValue": "DESKTOP-555G6B5\\MANOJ"
+			},
+			"DataBaseName": {
+				"type": "String",
+				"defaultValue": "TrainingDB"
+			},
+			"WindowsUsername": {
+				"type": "String",
+				"defaultValue": "DESKTOP-555G6B5\\Manoj kumar"
+			},
+			"WPassword": {
+				"type": "String",
+				"defaultValue": "qwert67890"
+			}
+		},
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "Integrated Security=True;Data Source=@{linkedService().ServerName};Initial Catalog=@{linkedService().DataBaseName}",
+			"userName": "@{linkedService().WindowsUsername}",
+			"password": "@{linkedService().WPassword}"
+		},
+		"connectVia": {
+			"referenceName": "OnPremise-SelfHosted",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
