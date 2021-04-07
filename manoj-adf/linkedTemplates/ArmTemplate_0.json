@@ -51,6 +51,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase7LS'"
 		},
+		"AzureDataLakeStoreGen1LS_servicePrincipalKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'servicePrincipalKey' of 'AzureDataLakeStoreGen1LS'"
+		},
 		"SqlServerLS_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "DESKTOP-555G6B5\\Manoj kumar"
@@ -58,6 +62,26 @@
 		"SqlServerTableEmpLS_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "Manoj kumar"
+		},
+		"AzureDataLakeStoreGen1LS_properties_typeProperties_dataLakeStoreUri": {
+			"type": "string",
+			"defaultValue": "https://manojadlsgen1.azuredatalakestore.net/webhdfs/v1"
+		},
+		"AzureDataLakeStoreGen1LS_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "d958c425-733a-4ca8-9166-d5c93cdd2e1a"
+		},
+		"AzureDataLakeStoreGen1LS_properties_typeProperties_tenant": {
+			"type": "string",
+			"defaultValue": "c8dee40f-fd9f-49c9-b741-722dc5c4ae7c"
+		},
+		"AzureDataLakeStoreGen1LS_properties_typeProperties_subscriptionId": {
+			"type": "string",
+			"defaultValue": "25c88cdf-cbf5-4ba3-82b1-79441fc2fc11"
+		},
+		"AzureDataLakeStoreGen1LS_properties_typeProperties_resourceGroupName": {
+			"type": "string",
+			"defaultValue": "manoj-rg"
 		}
 	},
 	"variables": {
@@ -197,6 +221,27 @@
 				"type": "AzureSqlDatabase",
 				"typeProperties": {
 					"connectionString": "[parameters('AzureSqlDatabase7LS_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStoreGen1LS')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDataLakeStore",
+				"typeProperties": {
+					"dataLakeStoreUri": "[parameters('AzureDataLakeStoreGen1LS_properties_typeProperties_dataLakeStoreUri')]",
+					"servicePrincipalId": "[parameters('AzureDataLakeStoreGen1LS_properties_typeProperties_servicePrincipalId')]",
+					"servicePrincipalKey": {
+						"type": "SecureString",
+						"value": "[parameters('AzureDataLakeStoreGen1LS_servicePrincipalKey')]"
+					},
+					"tenant": "[parameters('AzureDataLakeStoreGen1LS_properties_typeProperties_tenant')]",
+					"subscriptionId": "[parameters('AzureDataLakeStoreGen1LS_properties_typeProperties_subscriptionId')]",
+					"resourceGroupName": "[parameters('AzureDataLakeStoreGen1LS_properties_typeProperties_resourceGroupName')]"
 				}
 			},
 			"dependsOn": []
@@ -624,24 +669,6 @@
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SqlServerDeptTablesDS')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServerTableEmpLS",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [],
-				"typeProperties": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SqlServerTableEmpLS')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SqlServerDepthistoryDS')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {

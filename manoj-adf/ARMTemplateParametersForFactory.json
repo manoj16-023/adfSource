@@ -41,6 +41,9 @@
 		"AzureSqlDatabase7LS_connectionString": {
 			"value": ""
 		},
+		"AzureDataLakeStoreGen1LS_servicePrincipalKey": {
+			"value": ""
+		},
 		"SqlServerLS_properties_typeProperties_userName": {
 			"value": "DESKTOP-555G6B5\\Manoj kumar"
 		},
@@ -49,6 +52,21 @@
 		},
 		"SqlServerOnPremiseTableLS_properties_typeProperties_userName": {
 			"value": "@{linkedService().WindowsUsername}"
+		},
+		"AzureDataLakeStoreGen1LS_properties_typeProperties_dataLakeStoreUri": {
+			"value": "https://manojadlsgen1.azuredatalakestore.net/webhdfs/v1"
+		},
+		"AzureDataLakeStoreGen1LS_properties_typeProperties_servicePrincipalId": {
+			"value": "d958c425-733a-4ca8-9166-d5c93cdd2e1a"
+		},
+		"AzureDataLakeStoreGen1LS_properties_typeProperties_tenant": {
+			"value": "c8dee40f-fd9f-49c9-b741-722dc5c4ae7c"
+		},
+		"AzureDataLakeStoreGen1LS_properties_typeProperties_subscriptionId": {
+			"value": "25c88cdf-cbf5-4ba3-82b1-79441fc2fc11"
+		},
+		"AzureDataLakeStoreGen1LS_properties_typeProperties_resourceGroupName": {
+			"value": "manoj-rg"
 		}
 	}
 }

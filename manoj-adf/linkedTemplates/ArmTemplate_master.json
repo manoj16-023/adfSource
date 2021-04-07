@@ -55,6 +55,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase7LS'"
 		},
+		"AzureDataLakeStoreGen1LS_servicePrincipalKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'servicePrincipalKey' of 'AzureDataLakeStoreGen1LS'"
+		},
 		"SqlServerLS_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "DESKTOP-555G6B5\\Manoj kumar"
@@ -66,6 +70,26 @@
 		"SqlServerOnPremiseTableLS_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "@{linkedService().WindowsUsername}"
+		},
+		"AzureDataLakeStoreGen1LS_properties_typeProperties_dataLakeStoreUri": {
+			"type": "string",
+			"defaultValue": "https://manojadlsgen1.azuredatalakestore.net/webhdfs/v1"
+		},
+		"AzureDataLakeStoreGen1LS_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "d958c425-733a-4ca8-9166-d5c93cdd2e1a"
+		},
+		"AzureDataLakeStoreGen1LS_properties_typeProperties_tenant": {
+			"type": "string",
+			"defaultValue": "c8dee40f-fd9f-49c9-b741-722dc5c4ae7c"
+		},
+		"AzureDataLakeStoreGen1LS_properties_typeProperties_subscriptionId": {
+			"type": "string",
+			"defaultValue": "25c88cdf-cbf5-4ba3-82b1-79441fc2fc11"
+		},
+		"AzureDataLakeStoreGen1LS_properties_typeProperties_resourceGroupName": {
+			"type": "string",
+			"defaultValue": "manoj-rg"
 		},
 		"containerUri": {
 			"type": "string",
@@ -127,11 +151,29 @@
 					"AzureSqlDatabase7LS_connectionString": {
 						"value": "[parameters('AzureSqlDatabase7LS_connectionString')]"
 					},
+					"AzureDataLakeStoreGen1LS_servicePrincipalKey": {
+						"value": "[parameters('AzureDataLakeStoreGen1LS_servicePrincipalKey')]"
+					},
 					"SqlServerLS_properties_typeProperties_userName": {
 						"value": "[parameters('SqlServerLS_properties_typeProperties_userName')]"
 					},
 					"SqlServerTableEmpLS_properties_typeProperties_userName": {
 						"value": "[parameters('SqlServerTableEmpLS_properties_typeProperties_userName')]"
+					},
+					"AzureDataLakeStoreGen1LS_properties_typeProperties_dataLakeStoreUri": {
+						"value": "[parameters('AzureDataLakeStoreGen1LS_properties_typeProperties_dataLakeStoreUri')]"
+					},
+					"AzureDataLakeStoreGen1LS_properties_typeProperties_servicePrincipalId": {
+						"value": "[parameters('AzureDataLakeStoreGen1LS_properties_typeProperties_servicePrincipalId')]"
+					},
+					"AzureDataLakeStoreGen1LS_properties_typeProperties_tenant": {
+						"value": "[parameters('AzureDataLakeStoreGen1LS_properties_typeProperties_tenant')]"
+					},
+					"AzureDataLakeStoreGen1LS_properties_typeProperties_subscriptionId": {
+						"value": "[parameters('AzureDataLakeStoreGen1LS_properties_typeProperties_subscriptionId')]"
+					},
+					"AzureDataLakeStoreGen1LS_properties_typeProperties_resourceGroupName": {
+						"value": "[parameters('AzureDataLakeStoreGen1LS_properties_typeProperties_resourceGroupName')]"
 					}
 				}
 			},
