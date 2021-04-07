@@ -1,0 +1,25 @@
+{
+	"name": "JsonCategoryDS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage7LS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "adfoutput"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}
