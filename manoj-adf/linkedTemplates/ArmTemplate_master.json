@@ -63,6 +63,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorageGen2Ls'"
 		},
+		"AzureSqlDatabaseSample7LS_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabaseSample7LS'"
+		},
+		"AzureBlobStorage7LS_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage7LS'"
+		},
 		"AzureDataLakeStoreGen1LS_properties_typeProperties_dataLakeStoreUri": {
 			"type": "string",
 			"defaultValue": "https://manojadlsgen1.azuredatalakestore.net/webhdfs/v1"
@@ -165,6 +173,12 @@
 					"AzureDataLakeStorageGen2Ls_accountKey": {
 						"value": "[parameters('AzureDataLakeStorageGen2Ls_accountKey')]"
 					},
+					"AzureSqlDatabaseSample7LS_connectionString": {
+						"value": "[parameters('AzureSqlDatabaseSample7LS_connectionString')]"
+					},
+					"AzureBlobStorage7LS_connectionString": {
+						"value": "[parameters('AzureBlobStorage7LS_connectionString')]"
+					},
 					"AzureDataLakeStoreGen1LS_properties_typeProperties_dataLakeStoreUri": {
 						"value": "[parameters('AzureDataLakeStoreGen1LS_properties_typeProperties_dataLakeStoreUri')]"
 					},
@@ -217,6 +231,26 @@
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'manoj-adf_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "manoj-adf_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'manoj-adf_ArmTemplate_1')]"
 			]
 		}
 	]

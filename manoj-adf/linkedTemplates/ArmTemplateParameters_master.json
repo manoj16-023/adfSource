@@ -47,6 +47,12 @@
 		"AzureDataLakeStorageGen2Ls_accountKey": {
 			"value": ""
 		},
+		"AzureSqlDatabaseSample7LS_connectionString": {
+			"value": ""
+		},
+		"AzureBlobStorage7LS_connectionString": {
+			"value": ""
+		},
 		"AzureDataLakeStoreGen1LS_properties_typeProperties_dataLakeStoreUri": {
 			"value": "https://manojadlsgen1.azuredatalakestore.net/webhdfs/v1"
 		},
