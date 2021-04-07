@@ -69,8 +69,15 @@
 									"partitionOption": "None"
 								},
 								"sink": {
-									"type": "AzureSqlSink",
-									"tableOption": "autoCreate"
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
 								},
 								"enableStaging": false,
 								"translator": {
@@ -90,7 +97,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "AzureSqlTableSampleDS",
+									"referenceName": "DelimitedTextGen2DS",
 									"type": "DatasetReference"
 								}
 							]
